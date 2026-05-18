@@ -523,10 +523,23 @@ function flashScreen() {
 
 function playSkaaleSang() {
   try {
+    var audio = new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
+    audio.volume = 1.0;
+    audio.play().catch(function(e) {
+      console.log('Lyd fejl:', e);
+      // Fallback: melodi
+      playMelodi();
+    });
+  } catch(e) {
+    playMelodi();
+  }
+}
+
+function playMelodi() {
+  try {
     unlockAudio();
     if (!audioCtx) return;
     var ctx = audioCtx;
-    // "Vi skåler med vores venner" inspireret melodi
     var notes = [
       [523,0.00,0.22],[523,0.24,0.22],[659,0.48,0.32],[587,0.82,0.18],[523,1.02,0.38],
       [587,1.48,0.22],[587,1.72,0.22],[698,1.96,0.32],[659,2.30,0.18],[587,2.50,0.42],
@@ -534,20 +547,18 @@ function playSkaaleSang() {
       [784,4.00,0.18],[988,4.20,0.18],[1175,4.40,0.65]
     ];
     notes.forEach(function(n) {
-      var freq = n[0], start = n[1], dur = n[2];
       var osc = ctx.createOscillator();
       var gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      osc.connect(gain); gain.connect(ctx.destination);
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
-      gain.gain.setValueAtTime(0, ctx.currentTime + start);
-      gain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + start + 0.03);
-      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur);
-      osc.start(ctx.currentTime + start);
-      osc.stop(ctx.currentTime + start + dur + 0.1);
+      osc.frequency.setValueAtTime(n[0], ctx.currentTime + n[1]);
+      gain.gain.setValueAtTime(0, ctx.currentTime + n[1]);
+      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + n[1] + 0.03);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + n[1] + n[2]);
+      osc.start(ctx.currentTime + n[1]);
+      osc.stop(ctx.currentTime + n[1] + n[2] + 0.1);
     });
-  } catch(e) { console.log('Lyd fejl:', e); }
+  } catch(e) {}
 }
 
 // ── Friends ────────────────────────────────────────────────────────────────
