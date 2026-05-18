@@ -582,6 +582,9 @@
           </div>
         </div>
         <div class="countdown-msg" id="countdownMsg">Hold ud – snart er det tid! 🕐</div>
+        <button class="btn btn-brown" onclick="testAlarm()" style="margin-top:12px; width:100%; justify-content:center;">
+          🔔 Test alarm
+        </button>
       </div>
     </div>
   </div>
@@ -649,6 +652,19 @@ let alarmCheckInterval = null;
 let totalSecondsToAlarm = 0;
 let startTimestamp = null;
 let notifGranted = false;
+let audioCtx = null;
+
+// Unlock AudioContext on first user interaction (required on mobile)
+function unlockAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+document.addEventListener('touchstart', unlockAudio, { once: false });
+document.addEventListener('click', unlockAudio, { once: false });
 
 // ── Init from URL params ───────────────────────────────────────────────────
 window.addEventListener('load', () => {
@@ -754,20 +770,18 @@ function updateCountdownDisplay() {
   let remaining = getSecondsUntilAlarm();
   const total = totalSecondsToAlarm || 1;
 
-  // Check alarm
-  if (remaining === 0 || (remaining > 86390 && !alarmFired)) {
-    // also check if exactly at alarm time
-  }
+  // Check alarm — fire if within the target minute and not yet fired
   const now = new Date();
   const [ah, am] = alarmTime.split(':').map(Number);
   const isAlarmTime = now.getHours() === ah && now.getMinutes() === am;
-
   if (isAlarmTime && !alarmFired) {
     alarmFired = true;
     fireAlarm();
   }
-
+  // Also fire if countdown just hit 0
   if (remaining <= 0 && !alarmFired) {
+    alarmFired = true;
+    fireAlarm();
     remaining = 0;
   }
 
@@ -825,18 +839,22 @@ function setDigit(id, val) {
 function fireAlarm() {
   // Browser notification
   if (notifGranted) {
-    new Notification('🍺 ØL-TID!', {
-      body: 'Det er ' + alarmTime + ' – første øl er tilladt! Skål! 🥂',
-      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><text y="32" font-size="32">🍺</text></svg>'
-    });
+    try {
+      new Notification('🍺 ØL-TID!', {
+        body: 'Det er ' + alarmTime + ' – første øl er tilladt! Skål! 🥂',
+      });
+    } catch(e) {}
   }
 
-  // Vibration
+  // Vibration (long pattern on Android)
   if ('vibrate' in navigator) {
-    navigator.vibrate([300, 100, 300, 100, 600]);
+    navigator.vibrate([500, 200, 500, 200, 500, 200, 1000]);
   }
 
-  // Play sound via AudioContext
+  // Flash screen
+  flashScreen();
+
+  // Play sound
   playBeerSound();
 
   // Show modal
@@ -853,9 +871,26 @@ function dismissAlarm() {
   document.getElementById('heroGlass').textContent = '🍻';
 }
 
+function flashScreen() {
+  const flash = document.createElement('div');
+  flash.style.cssText = 'position:fixed;inset:0;background:#f5a623;z-index:9999;pointer-events:none;animation:flashfade 1.5s ease forwards;';
+  const style = document.createElement('style');
+  style.textContent = '@keyframes flashfade{0%{opacity:0.9}100%{opacity:0}}';
+  document.head.appendChild(style);
+  document.body.appendChild(flash);
+  setTimeout(() => { flash.remove(); style.remove(); }, 1600);
+}
+
+function testAlarm() {
+  unlockAudio();
+  fireAlarm();
+}
+
 function playBeerSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    unlockAudio();
+    if (!audioCtx) return;
+    const ctx = audioCtx;
     const play = (freq, start, duration, type='sine') => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -864,19 +899,20 @@ function playBeerSound() {
       osc.type = type;
       osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
       gain.gain.setValueAtTime(0, ctx.currentTime + start);
-      gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + start + 0.02);
+      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + start + 0.02);
       gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + duration);
       osc.start(ctx.currentTime + start);
-      osc.stop(ctx.currentTime + start + duration + 0.05);
+      osc.stop(ctx.currentTime + start + duration + 0.1);
     };
     // Cheerful fanfare
-    play(523, 0, 0.15);
+    play(523, 0,    0.15);
     play(659, 0.18, 0.15);
     play(784, 0.36, 0.15);
-    play(1047, 0.54, 0.4);
-    play(784, 1.0, 0.15);
-    play(1047, 1.18, 0.5);
-  } catch(e) {}
+    play(1047,0.54, 0.4);
+    play(784, 1.0,  0.15);
+    play(1047,1.18, 0.6);
+    play(1319,1.85, 0.8);
+  } catch(e) { console.log('Sound error:', e); }
 }
 
 // ── Friends ────────────────────────────────────────────────────────────────
