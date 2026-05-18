@@ -634,8 +634,12 @@
   <div class="alarm-modal">
     <span class="big-beer">🍺</span>
     <h2>DET ER ØL-TID!</h2>
-    <p id="alarmFriendMsg">God tur til alle! Skål! 🥂</p>
-    <button class="btn btn-amber btn-full" onclick="dismissAlarm()" style="font-size:1.3rem; padding:14px;">
+    <div style="font-family:'Boogaloo',cursive; font-size:1.1rem; color:var(--brown-mid); margin: 6px 0 4px; line-height:1.5;">
+      🎵 Vi skåler med vores venner<br>
+      og drikker den kolde øl! 🎵
+    </div>
+    <p id="alarmFriendMsg" style="margin-top:8px;">God tur til alle! Skål! 🥂</p>
+    <button class="btn btn-amber btn-full" onclick="dismissAlarm()" style="font-size:1.3rem; padding:14px; margin-top:16px;">
       🍻 SKÅL! Luk alarm
     </button>
   </div>
@@ -857,11 +861,17 @@ function fireAlarm() {
   // Play sound
   playBeerSound();
 
-  // Show modal
-  const friendCount = friends.length;
-  const msg = friendCount > 0
-    ? `Skål til ${friends.join(', ')} og dig! 🥂`
-    : 'God tur! Første øl er fortjent! 🥂';
+  // Show modal with all friends listed
+  let msg;
+  if (friends.length === 0) {
+    msg = 'God tur! Første øl er fortjent! 🥂';
+  } else if (friends.length === 1) {
+    msg = `Skål til ${friends[0]} og dig! 🥂`;
+  } else {
+    const last = friends[friends.length - 1];
+    const rest = friends.slice(0, -1);
+    msg = `Skål til ${rest.join(', ')} og ${last}! 🥂`;
+  }
   document.getElementById('alarmFriendMsg').textContent = msg;
   document.getElementById('alarmOverlay').classList.add('show');
 }
@@ -891,27 +901,45 @@ function playBeerSound() {
     unlockAudio();
     if (!audioCtx) return;
     const ctx = audioCtx;
-    const play = (freq, start, duration, type='sine') => {
+
+    // "Vi skåler med vores venner" inspireret melodi
+    // Munter vals-agtig skålesang i C-dur
+    const notes = [
+      // Frase 1: Vi skå-ler med vo-res ven-ner
+      [523, 0.00, 0.25],   // C
+      [523, 0.25, 0.25],   // C
+      [659, 0.50, 0.35],   // E
+      [587, 0.85, 0.20],   // D
+      [523, 1.05, 0.40],   // C
+      // Frase 2: og drik-ker den kold-e øl
+      [587, 1.55, 0.25],   // D
+      [587, 1.80, 0.25],   // D
+      [698, 2.05, 0.35],   // F
+      [659, 2.40, 0.20],   // E
+      [587, 2.60, 0.45],   // D
+      // Frase 3: SKÅL! (fanfare)
+      [784, 3.15, 0.20],   // G
+      [880, 3.35, 0.20],   // A
+      [1047,3.55, 0.55],   // C høj
+      // Afsluttende akkord-jingle
+      [784, 4.20, 0.20],
+      [988, 4.40, 0.20],
+      [1175,4.60, 0.60],
+    ];
+
+    notes.forEach(([freq, start, dur]) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);
       gain.connect(ctx.destination);
-      osc.type = type;
+      osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
       gain.gain.setValueAtTime(0, ctx.currentTime + start);
-      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + start + 0.02);
-      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + duration);
+      gain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + start + 0.03);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur);
       osc.start(ctx.currentTime + start);
-      osc.stop(ctx.currentTime + start + duration + 0.1);
-    };
-    // Cheerful fanfare
-    play(523, 0,    0.15);
-    play(659, 0.18, 0.15);
-    play(784, 0.36, 0.15);
-    play(1047,0.54, 0.4);
-    play(784, 1.0,  0.15);
-    play(1047,1.18, 0.6);
-    play(1319,1.85, 0.8);
+      osc.stop(ctx.currentTime + start + dur + 0.1);
+    });
   } catch(e) { console.log('Sound error:', e); }
 }
 
@@ -971,31 +999,4 @@ function updateShareLinkDisplay() {
     friends: JSON.stringify(friends)
   });
   const url = base + '?' + params.toString();
-  document.getElementById('shareLink').textContent = vacationActive ? url : 'Aktiver ferie-tilstand for at generere link';
-}
-
-function copyShareLink() {
-  if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
-  const txt = document.getElementById('shareLink').textContent;
-  navigator.clipboard.writeText(txt).then(() => {
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = '✅ Kopieret!';
-    setTimeout(() => btn.textContent = '📋 Kopier link', 2000);
-  }).catch(() => {
-    prompt('Kopier dette link:', txt);
-  });
-}
-
-function shareLink() {
-  if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
-  const txt = document.getElementById('shareLink').textContent;
-  const text = `🍺 Ferie Øl-alarm kl. ${alarmTime}! Klik for at starte nedtælling: `;
-  if (navigator.share) {
-    navigator.share({ title: 'Ferie Øl 🍺', text: text, url: txt });
-  } else {
-    navigator.clipboard.writeText(text + txt).then(() => alert('Link kopieret til udklipsholder!'));
-  }
-}
-</script>
-</body>
-</html>
+  document.getElementById('shareLink').textConte
