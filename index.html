@@ -339,6 +339,15 @@ var alarmFired = false;
 var countdownTimer = null;
 var totalSeconds = 0;
 var audioCtx = null;
+var skaalAudio = null;
+
+function preloadAudio() {
+  try {
+    skaalAudio = new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
+    skaalAudio.preload = 'auto';
+    skaalAudio.load();
+  } catch(e) {}
+}
 
 // ── Audio unlock (required on mobile) ─────────────────────────────────────
 function unlockAudio() {
@@ -349,6 +358,9 @@ function unlockAudio() {
 }
 document.addEventListener('touchstart', unlockAudio);
 document.addEventListener('click', unlockAudio);
+
+// Preload audio as soon as page loads
+window.addEventListener('load', preloadAudio);
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('load', function() {
@@ -523,13 +535,17 @@ function flashScreen() {
 
 function playSkaaleSang() {
   try {
-    var audio = new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
+    // Genbrug preloadet audio eller opret ny
+    var audio = skaalAudio || new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
+    audio.currentTime = 0;
     audio.volume = 1.0;
-    audio.play().catch(function(e) {
-      console.log('Lyd fejl:', e);
-      // Fallback: melodi
-      playMelodi();
-    });
+    var playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(function(e) {
+        console.log('MP3 fejl, bruger melodi:', e);
+        playMelodi();
+      });
+    }
   } catch(e) {
     playMelodi();
   }
