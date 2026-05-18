@@ -16,500 +16,184 @@
     --brown: #3d1c02;
     --brown-mid: #7a3b10;
     --green: #2ecc71;
-    --sky: #87ceeb;
-    --sand: #f4d9a0;
-    --white: #ffffff;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Nunito', sans-serif;
     background: linear-gradient(160deg, #87ceeb 0%, #b8e4f9 40%, #f4d9a0 100%);
-    min-height: 100vh;
     min-height: 100dvh;
     overflow-x: hidden;
     position: relative;
   }
-
-  /* Animated background */
   .bg-sun {
-    position: fixed;
-    top: -60px;
-    right: -60px;
-    width: 200px;
-    height: 200px;
+    position: fixed; top: -60px; right: -60px;
+    width: 200px; height: 200px;
     background: radial-gradient(circle, #ffe066 30%, #ffd000 60%, transparent 75%);
     border-radius: 50%;
     animation: sunpulse 4s ease-in-out infinite;
-    z-index: 0;
-    pointer-events: none;
+    z-index: 0; pointer-events: none;
   }
-  @keyframes sunpulse {
-    0%, 100% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(1.07); opacity: 1; }
-  }
-
+  @keyframes sunpulse { 0%,100%{transform:scale(1);opacity:.9} 50%{transform:scale(1.07);opacity:1} }
   .bg-wave {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 100px;
+    z-index: 0; pointer-events: none; overflow: hidden;
   }
   .bg-wave svg { width: 200%; animation: waveroll 6s linear infinite; }
-  @keyframes waveroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
+  @keyframes waveroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 16px 16px 120px;
+    position: relative; z-index: 1;
+    max-width: 480px; margin: 0 auto; padding: 16px 16px 120px;
   }
-
-  /* Header */
-  .header {
-    text-align: center;
-    padding: 20px 0 10px;
-  }
+  .header { text-align: center; padding: 20px 0 10px; }
   .header h1 {
-    font-family: 'Boogaloo', cursive;
-    font-size: 3rem;
-    color: var(--brown);
-    text-shadow: 3px 3px 0 var(--amber-light), 4px 4px 0 rgba(0,0,0,0.1);
+    font-family: 'Boogaloo', cursive; font-size: 3rem; color: var(--brown);
+    text-shadow: 3px 3px 0 var(--amber-light), 4px 4px 0 rgba(0,0,0,.1);
     line-height: 1;
-    letter-spacing: 1px;
   }
-  .header .tagline {
-    font-size: 0.9rem;
-    color: var(--brown-mid);
-    font-weight: 700;
-    margin-top: 4px;
-    letter-spacing: 0.5px;
-  }
-
-  /* Beer glass animation */
-  .beer-hero {
-    text-align: center;
-    margin: 10px 0 6px;
-  }
+  .header .tagline { font-size: .9rem; color: var(--brown-mid); font-weight: 700; margin-top: 4px; }
+  .beer-hero { text-align: center; margin: 10px 0 6px; }
   .beer-hero .glass {
-    font-size: 5rem;
+    font-size: 5rem; display: inline-block;
     animation: tilt 3s ease-in-out infinite;
-    display: inline-block;
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,.2));
   }
-  @keyframes tilt {
-    0%, 100% { transform: rotate(-5deg) scale(1); }
-    50% { transform: rotate(5deg) scale(1.08); }
-  }
-
-  /* Cards */
+  @keyframes tilt { 0%,100%{transform:rotate(-5deg) scale(1)} 50%{transform:rotate(5deg) scale(1.08)} }
   .card {
-    background: rgba(255,255,255,0.88);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 20px rgba(61,28,2,0.12), 0 1px 4px rgba(0,0,0,0.06);
-    border: 2px solid rgba(245,166,35,0.25);
+    background: rgba(255,255,255,.88); backdrop-filter: blur(10px);
+    border-radius: 20px; padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 4px 20px rgba(61,28,2,.12);
+    border: 2px solid rgba(245,166,35,.25);
   }
   .card-title {
-    font-family: 'Boogaloo', cursive;
-    font-size: 1.2rem;
-    color: var(--brown-mid);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-family: 'Boogaloo', cursive; font-size: 1.2rem;
+    color: var(--brown-mid); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
   }
-
-  /* Status badge */
-  .status-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 50px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-  }
-  .status-active { background: #d4edda; color: #155724; }
-  .status-inactive { background: #f8d7da; color: #721c24; }
-
-  /* Toggle switch */
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .toggle-label { font-weight: 700; color: var(--brown); font-size: 1rem; }
-  .toggle {
-    position: relative;
-    width: 58px;
-    height: 30px;
-  }
+  .toggle { position: relative; width: 58px; height: 30px; }
   .toggle input { display: none; }
   .toggle-track {
-    position: absolute;
-    inset: 0;
-    border-radius: 15px;
-    background: #ccc;
-    transition: background 0.3s;
-    cursor: pointer;
+    position: absolute; inset: 0; border-radius: 15px;
+    background: #ccc; transition: background .3s; cursor: pointer;
   }
   .toggle input:checked + .toggle-track { background: var(--amber); }
   .toggle-thumb {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: transform 0.3s;
-    pointer-events: none;
+    position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
+    border-radius: 50%; background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    transition: transform .3s; pointer-events: none;
   }
   .toggle input:checked ~ .toggle-thumb { transform: translateX(28px); }
-
-  /* Time picker */
-  .time-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .time-row label { font-weight: 700; color: var(--brown); font-size: 0.9rem; flex: 1; }
+  .time-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .time-row label { font-weight: 700; color: var(--brown); font-size: .9rem; flex: 1; }
   .time-input {
-    border: 2px solid var(--amber);
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-size: 1.3rem;
-    font-family: 'Boogaloo', cursive;
-    color: var(--brown);
-    background: var(--foam);
-    text-align: center;
-    width: 120px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border: 2px solid var(--amber); border-radius: 10px; padding: 8px 12px;
+    font-size: 1.3rem; font-family: 'Boogaloo', cursive; color: var(--brown);
+    background: var(--foam); text-align: center; width: 120px; outline: none;
   }
-  .time-input:focus { border-color: var(--amber-dark); box-shadow: 0 0 0 3px rgba(245,166,35,0.25); }
-
-  /* Countdown display */
-  .countdown-wrap {
-    text-align: center;
-    padding: 10px 0 4px;
-  }
+  .countdown-wrap { text-align: center; padding: 10px 0 4px; }
   .countdown-label {
-    font-size: 0.85rem;
-    color: var(--brown-mid);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+    font-size: .85rem; color: var(--brown-mid); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
   }
-  .countdown-digits {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    align-items: center;
-  }
+  .countdown-digits { display: flex; justify-content: center; gap: 6px; align-items: center; }
   .digit-block {
-    background: var(--brown);
-    color: var(--amber-light);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-family: 'Boogaloo', cursive;
-    font-size: 2.2rem;
-    line-height: 1;
-    min-width: 58px;
-    text-align: center;
-    box-shadow: 0 4px 0 var(--amber-dark), 0 6px 12px rgba(0,0,0,0.2);
-    transition: transform 0.15s;
-    position: relative;
+    background: var(--brown); color: var(--amber-light);
+    border-radius: 12px; padding: 10px 14px;
+    font-family: 'Boogaloo', cursive; font-size: 2.2rem; line-height: 1;
+    min-width: 58px; text-align: center;
+    box-shadow: 0 4px 0 var(--amber-dark), 0 6px 12px rgba(0,0,0,.2);
   }
-  .digit-block.pulse { animation: digitpop 0.3s ease; }
-  @keyframes digitpop { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
-  .digit-block span.unit {
-    display: block;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--amber);
-    text-transform: uppercase;
-    margin-top: 2px;
+  .digit-unit {
+    display: block; font-family: 'Nunito', sans-serif;
+    font-size: .5rem; font-weight: 700; letter-spacing: .5px;
+    color: var(--amber); text-transform: uppercase; margin-top: 2px;
   }
   .colon {
-    font-family: 'Boogaloo', cursive;
-    font-size: 2.2rem;
-    color: var(--brown);
-    line-height: 1;
-    margin-bottom: 14px;
-    animation: blink 1s step-start infinite;
+    font-family: 'Boogaloo', cursive; font-size: 2.2rem; color: var(--brown);
+    line-height: 1; margin-bottom: 14px; animation: blink 1s step-start infinite;
   }
-  @keyframes blink { 50% { opacity: 0.2; } }
-
-  .countdown-msg {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--brown-mid);
-    margin-top: 10px;
+  @keyframes blink { 50%{opacity:.2} }
+  .countdown-msg { font-size: .88rem; font-weight: 700; color: var(--brown-mid); margin-top: 10px; }
+  .countdown-msg.ready { color: var(--green); font-size: 1.1rem; animation: glow 1s ease-in-out infinite alternate; }
+  @keyframes glow { from{text-shadow:0 0 4px rgba(46,204,113,.4)} to{text-shadow:0 0 14px rgba(46,204,113,.9)} }
+  .progress-wrap { margin: 12px 0 4px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: .75rem; font-weight: 700; color: var(--brown-mid); margin-bottom: 5px; }
+  .progress-track { height: 12px; background: rgba(245,166,35,.2); border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(245,166,35,.4); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg,#f5c842,var(--amber-dark)); border-radius: 6px; transition: width 1s linear; width: 0%; }
+  .vacation-banner {
+    display: none; background: linear-gradient(135deg,var(--amber),var(--amber-dark));
+    color: var(--brown); border-radius: 16px; padding: 14px 18px; margin-bottom: 14px;
+    font-family: 'Boogaloo', cursive; font-size: 1.15rem; text-align: center;
+    box-shadow: 0 4px 16px rgba(245,166,35,.4); border: 3px solid var(--amber-light);
   }
-  .countdown-msg.ready {
-    color: var(--green);
-    font-size: 1.1rem;
-    animation: glow 1s ease-in-out infinite alternate;
-  }
-  @keyframes glow {
-    from { text-shadow: 0 0 4px rgba(46,204,113,0.4); }
-    to { text-shadow: 0 0 14px rgba(46,204,113,0.9); }
-  }
-
-  /* Friends */
-  .friends-list {
-    list-style: none;
-    margin-bottom: 10px;
-  }
+  .vacation-banner.show { display: block; }
+  .friends-list { list-style: none; margin-bottom: 10px; }
   .friend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px dashed rgba(245,166,35,0.4);
-    font-weight: 600;
-    color: var(--brown);
-    font-size: 0.95rem;
+    display: flex; align-items: center; gap: 10px; padding: 8px 0;
+    border-bottom: 1px dashed rgba(245,166,35,.4);
+    font-weight: 600; color: var(--brown); font-size: .95rem;
   }
   .friend-item:last-child { border-bottom: none; }
   .friend-avatar {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg,var(--amber),var(--amber-dark));
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    color: white;
-    font-weight: 700;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    font-size: 1.1rem; flex-shrink: 0;
   }
-  .friend-remove {
-    margin-left: auto;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    color: #aaa;
-    padding: 4px;
-    transition: color 0.2s;
-  }
-  .friend-remove:hover { color: #e74c3c; }
-
-  .add-friend-row {
-    display: flex;
-    gap: 8px;
-  }
+  .friend-remove { margin-left: auto; background: none; border: none; cursor: pointer; font-size: 1.1rem; color: #aaa; padding: 4px; }
+  .add-friend-row { display: flex; gap: 8px; }
   .add-friend-input {
-    flex: 1;
-    border: 2px solid var(--amber);
-    border-radius: 10px;
-    padding: 9px 12px;
-    font-size: 0.95rem;
-    font-family: 'Nunito', sans-serif;
-    color: var(--brown);
-    background: var(--foam);
-    outline: none;
-    transition: border-color 0.2s;
+    flex: 1; border: 2px solid var(--amber); border-radius: 10px; padding: 9px 12px;
+    font-size: .95rem; font-family: 'Nunito', sans-serif; color: var(--brown);
+    background: var(--foam); outline: none;
   }
-  .add-friend-input:focus { border-color: var(--amber-dark); }
-  .add-friend-input::placeholder { color: #bbb; }
-
-  /* Buttons */
-  .btn {
-    border: none;
-    border-radius: 12px;
-    padding: 11px 18px;
-    font-family: 'Boogaloo', cursive;
-    font-size: 1.05rem;
-    cursor: pointer;
-    transition: transform 0.12s, box-shadow 0.12s;
-    letter-spacing: 0.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .btn:active { transform: scale(0.96); }
-  .btn-amber {
-    background: var(--amber);
-    color: var(--brown);
-    box-shadow: 0 3px 0 var(--amber-dark), 0 5px 10px rgba(0,0,0,0.15);
-  }
-  .btn-amber:hover { background: #f7b840; }
-  .btn-green {
-    background: var(--green);
-    color: white;
-    box-shadow: 0 3px 0 #27ae60, 0 5px 10px rgba(0,0,0,0.15);
-  }
-  .btn-brown {
-    background: var(--brown);
-    color: var(--amber-light);
-    box-shadow: 0 3px 0 #1a0a00, 0 5px 10px rgba(0,0,0,0.2);
-  }
-  .btn-full { width: 100%; justify-content: center; }
-
-  /* Share section */
   .share-link-box {
-    background: var(--foam);
-    border: 2px dashed var(--amber);
-    border-radius: 12px;
-    padding: 12px;
-    font-size: 0.78rem;
-    color: var(--brown-mid);
-    word-break: break-all;
-    margin: 10px 0;
-    font-family: monospace;
-    letter-spacing: 0.3px;
+    background: var(--foam); border: 2px dashed var(--amber); border-radius: 12px;
+    padding: 12px; font-size: .78rem; color: var(--brown-mid);
+    word-break: break-all; margin: 10px 0; font-family: monospace;
   }
-
-  /* Alarm toast */
+  .btn {
+    border: none; border-radius: 12px; padding: 11px 18px;
+    font-family: 'Boogaloo', cursive; font-size: 1.05rem; cursor: pointer;
+    transition: transform .12s; letter-spacing: .5px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn:active { transform: scale(.96); }
+  .btn-amber { background: var(--amber); color: var(--brown); box-shadow: 0 3px 0 var(--amber-dark); }
+  .btn-brown { background: var(--brown); color: var(--amber-light); box-shadow: 0 3px 0 #1a0a00; }
+  .btn-full { width: 100%; justify-content: center; }
+  .notif-banner {
+    background: #fff3cd; border: 2px solid #ffc107; border-radius: 12px;
+    padding: 12px 16px; font-size: .85rem; color: #856404; font-weight: 600;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .notif-banner button {
+    margin-left: auto; background: #ffc107; color: #856404; border: none;
+    border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; font-size: .8rem;
+  }
+  /* Alarm overlay */
   .alarm-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(61,28,2,0.7);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    display: none; position: fixed; inset: 0;
+    background: rgba(61,28,2,.75); z-index: 100;
+    align-items: center; justify-content: center; padding: 20px;
   }
   .alarm-overlay.show { display: flex; }
   .alarm-modal {
-    background: var(--foam);
-    border-radius: 24px;
-    padding: 36px 28px;
-    text-align: center;
-    max-width: 340px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: var(--foam); border-radius: 24px; padding: 32px 24px;
+    text-align: center; max-width: 340px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
     border: 4px solid var(--amber);
   }
-  @keyframes popIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .alarm-modal .big-beer {
-    font-size: 5rem;
-    animation: bounce 0.5s ease infinite alternate;
-    display: block;
-  }
-  @keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(-12px); }
-  }
-  .alarm-modal h2 {
-    font-family: 'Boogaloo', cursive;
-    font-size: 2.2rem;
-    color: var(--brown);
-    margin: 10px 0 6px;
-    line-height: 1.1;
-  }
-  .alarm-modal p {
-    color: var(--brown-mid);
-    font-weight: 700;
-    margin-bottom: 20px;
-    font-size: 1.05rem;
-  }
-
-  /* Vacation active banner */
-  .vacation-banner {
-    display: none;
-    background: linear-gradient(135deg, var(--amber), var(--amber-dark));
-    color: var(--brown);
-    border-radius: 16px;
-    padding: 14px 18px;
-    margin-bottom: 14px;
-    font-family: 'Boogaloo', cursive;
-    font-size: 1.15rem;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(245,166,35,0.4);
-    border: 3px solid var(--amber-light);
-    animation: vacshine 2s ease-in-out infinite alternate;
-  }
-  @keyframes vacshine {
-    from { box-shadow: 0 4px 16px rgba(245,166,35,0.4); }
-    to { box-shadow: 0 4px 28px rgba(245,166,35,0.7); }
-  }
-  .vacation-banner.show { display: block; }
-
-  /* Progress bar */
-  .progress-wrap {
-    margin: 12px 0 4px;
-  }
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--brown-mid);
-    margin-bottom: 5px;
-  }
-  .progress-track {
-    height: 12px;
-    background: rgba(245,166,35,0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1.5px solid rgba(245,166,35,0.4);
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--amber-light), var(--amber));
-    border-radius: 6px;
-    transition: width 1s linear;
-    width: 0%;
-  }
-  .progress-fill.beer-fill {
-    background: linear-gradient(90deg, #f5c842, var(--amber-dark));
-  }
-
-  /* Notification permission */
-  .notif-banner {
-    background: #fff3cd;
-    border: 2px solid #ffc107;
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 0.85rem;
-    color: #856404;
-    font-weight: 600;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .notif-banner button {
-    margin-left: auto;
-    background: #ffc107;
-    color: #856404;
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 0.8rem;
-    white-space: nowrap;
-  }
-
-  /* Responsive */
-  @media (max-width: 360px) {
-    .header h1 { font-size: 2.4rem; }
-    .digit-block { font-size: 1.8rem; min-width: 48px; padding: 8px 10px; }
-  }
+  @keyframes popIn { 0%{transform:scale(.5);opacity:0} 100%{transform:scale(1);opacity:1} }
+  .alarm-modal .big-beer { font-size: 5rem; animation: bounce .5s ease infinite alternate; display: block; }
+  @keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-12px)} }
+  .alarm-modal h2 { font-family: 'Boogaloo', cursive; font-size: 2.2rem; color: var(--brown); margin: 10px 0 6px; }
+  .skaalesang { font-family: 'Boogaloo', cursive; font-size: 1.05rem; color: var(--brown-mid); line-height: 1.6; margin: 6px 0 8px; }
+  .alarm-friends { font-weight: 700; color: var(--brown); font-size: 1rem; margin-bottom: 16px; }
+  @keyframes flashfade { 0%{opacity:.85} 100%{opacity:0} }
 </style>
 </head>
 <body>
@@ -524,24 +208,20 @@
 
 <div class="container">
 
-  <!-- Header -->
   <div class="header">
     <h1>🌴 Ferie Øl 🌴</h1>
     <div class="tagline">For den seriøse feriebrygg-entusiast</div>
   </div>
 
-  <!-- Beer hero -->
   <div class="beer-hero">
     <span class="glass" id="heroGlass">🍺</span>
   </div>
 
-  <!-- Notif banner -->
   <div class="notif-banner" id="notifBanner" style="display:none">
-    🔔 Aktiver notifikationer for at få øl-alarmen
+    🔔 Aktiver notifikationer for øl-alarmen
     <button onclick="requestNotifPermission()">Tillad</button>
   </div>
 
-  <!-- Vacation active banner -->
   <div class="vacation-banner" id="vacBanner">
     ☀️ FERIE AKTIVERET! Øl-reglerne er i kraft! ☀️
   </div>
@@ -556,21 +236,28 @@
         <div class="toggle-thumb"></div>
       </label>
     </div>
-
     <div class="time-row">
       <label for="alarmTime">⏰ Øl-tid</label>
-      <input type="time" id="alarmTime" class="time-input" value="11:00" onchange="updateAlarm()">
+      <input type="time" id="alarmTime" class="time-input" value="11:00" onchange="updateAlarmTime()">
     </div>
-
     <div id="countdownSection" style="display:none">
       <div class="countdown-wrap">
         <div class="countdown-label">⏳ Tid til første øl</div>
         <div class="countdown-digits">
-          <div class="digit-block" id="dHours">00<span class="unit">timer</span></div>
+          <div class="digit-block" id="dHours">
+            <span id="dHoursVal">00</span>
+            <span class="digit-unit">timer</span>
+          </div>
           <div class="colon">:</div>
-          <div class="digit-block" id="dMins">00<span class="unit">min</span></div>
+          <div class="digit-block" id="dMins">
+            <span id="dMinsVal">00</span>
+            <span class="digit-unit">min</span>
+          </div>
           <div class="colon">:</div>
-          <div class="digit-block" id="dSecs">00<span class="unit">sek</span></div>
+          <div class="digit-block" id="dSecs">
+            <span id="dSecsVal">00</span>
+            <span class="digit-unit">sek</span>
+          </div>
         </div>
         <div class="progress-wrap">
           <div class="progress-label">
@@ -578,11 +265,11 @@
             <span id="alarmLabel">🍺 11:00</span>
           </div>
           <div class="progress-track">
-            <div class="progress-fill beer-fill" id="progressFill"></div>
+            <div class="progress-fill" id="progressFill"></div>
           </div>
         </div>
         <div class="countdown-msg" id="countdownMsg">Hold ud – snart er det tid! 🕐</div>
-        <button class="btn btn-brown" onclick="testAlarm()" style="margin-top:12px; width:100%; justify-content:center;">
+        <button class="btn btn-brown btn-full" onclick="testAlarm()" style="margin-top:12px;">
           🔔 Test alarm
         </button>
       </div>
@@ -592,9 +279,7 @@
   <!-- Friends -->
   <div class="card">
     <div class="card-title">👥 Dine ferie-kompanioner</div>
-    <ul class="friends-list" id="friendsList">
-      <!-- populated by JS -->
-    </ul>
+    <ul class="friends-list" id="friendsList"></ul>
     <div class="add-friend-row">
       <input type="text" id="friendInput" class="add-friend-input" placeholder="Skriv navn..." maxlength="30"
              onkeydown="if(event.key==='Enter') addFriend()">
@@ -605,41 +290,41 @@
   <!-- Share -->
   <div class="card">
     <div class="card-title">🔗 Del med venner</div>
-    <p style="font-size:0.88rem; color:var(--brown-mid); font-weight:600; margin-bottom:12px;">
-      Kopier linket og send til dine ferie-venner, så I alle får øl-alarmen på samme tid!
+    <p style="font-size:.88rem;color:var(--brown-mid);font-weight:600;margin-bottom:12px;">
+      Send linket til dine ferie-venner – så får I øl-alarmen på samme tid!
     </p>
     <div class="share-link-box" id="shareLink">Aktiver ferie-tilstand for at generere link</div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <button class="btn btn-amber" onclick="copyShareLink()" id="copyBtn">📋 Kopier link</button>
-      <button class="btn btn-brown" onclick="shareLink()" id="shareBtn">📤 Del via...</button>
+      <button class="btn btn-brown" onclick="doShare()">📤 Del via...</button>
     </div>
   </div>
 
-  <!-- Rules card -->
+  <!-- Rules -->
   <div class="card">
     <div class="card-title">📜 Reglerne (ufravigelige)</div>
-    <div style="font-size:0.88rem; color:var(--brown); font-weight:600; line-height:1.8;">
+    <div style="font-size:.88rem;color:var(--brown);font-weight:600;line-height:1.8;">
       <div>✅ Første øl må IKKE nydes før alarmtiden</div>
       <div>✅ Reglen gælder alle i gruppen – ingen undtagelser</div>
       <div>✅ Den der bryder reglen, betaler næste runde</div>
-      <div>✅ På ferie-dage er øllen altid kold og velfortjent</div>
-      <div style="margin-top:8px; font-size:0.8rem; color:#aaa;">*Øl-reglerne er selvfølgelig for dem over 18 år 🙃</div>
+      <div>✅ På ferie er øllen altid kold og velfortjent</div>
+      <div style="margin-top:8px;font-size:.8rem;color:#aaa;">*Øl-reglerne er for dem over 18 år 🙃</div>
     </div>
   </div>
 
-</div><!-- end container -->
+</div>
 
 <!-- Alarm Modal -->
 <div class="alarm-overlay" id="alarmOverlay">
   <div class="alarm-modal">
     <span class="big-beer">🍺</span>
     <h2>DET ER ØL-TID!</h2>
-    <div style="font-family:'Boogaloo',cursive; font-size:1.1rem; color:var(--brown-mid); margin: 6px 0 4px; line-height:1.5;">
+    <div class="skaalesang">
       🎵 Vi skåler med vores venner<br>
       og drikker den kolde øl! 🎵
     </div>
-    <p id="alarmFriendMsg" style="margin-top:8px;">God tur til alle! Skål! 🥂</p>
-    <button class="btn btn-amber btn-full" onclick="dismissAlarm()" style="font-size:1.3rem; padding:14px; margin-top:16px;">
+    <div class="alarm-friends" id="alarmFriendMsg">Skål til alle! 🥂</div>
+    <button class="btn btn-amber btn-full" onclick="dismissAlarm()" style="font-size:1.3rem;padding:14px;">
       🍻 SKÅL! Luk alarm
     </button>
   </div>
@@ -647,40 +332,33 @@
 
 <script>
 // ── State ──────────────────────────────────────────────────────────────────
-let vacationActive = false;
-let friends = [];
-let alarmTime = '11:00';
-let alarmFired = false;
-let countdown = null;
-let alarmCheckInterval = null;
-let totalSecondsToAlarm = 0;
-let startTimestamp = null;
-let notifGranted = false;
-let audioCtx = null;
+var vacationActive = false;
+var friends = [];
+var alarmTime = '11:00';
+var alarmFired = false;
+var countdownTimer = null;
+var totalSeconds = 0;
+var audioCtx = null;
 
-// Unlock AudioContext on first user interaction (required on mobile)
+// ── Audio unlock (required on mobile) ─────────────────────────────────────
 function unlockAudio() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } catch(e) {}
 }
-document.addEventListener('touchstart', unlockAudio, { once: false });
-document.addEventListener('click', unlockAudio, { once: false });
+document.addEventListener('touchstart', unlockAudio);
+document.addEventListener('click', unlockAudio);
 
-// ── Init from URL params ───────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  const params = new URLSearchParams(location.search);
+// ── Init ───────────────────────────────────────────────────────────────────
+window.addEventListener('load', function() {
+  var params = new URLSearchParams(location.search);
   if (params.get('time')) {
     alarmTime = params.get('time');
     document.getElementById('alarmTime').value = alarmTime;
   }
   if (params.get('friends')) {
-    try {
-      friends = JSON.parse(decodeURIComponent(params.get('friends')));
-    } catch(e) {}
+    try { friends = JSON.parse(decodeURIComponent(params.get('friends'))); } catch(e) {}
   }
   if (params.get('active') === '1') {
     vacationActive = true;
@@ -688,40 +366,28 @@ window.addEventListener('load', () => {
     startVacation();
   }
   renderFriends();
-  checkNotifPermission();
-  updateShareLinkDisplay();
+  checkNotif();
+  updateShareLink();
 });
 
 // ── Notifications ──────────────────────────────────────────────────────────
-function checkNotifPermission() {
+function checkNotif() {
   if (!('Notification' in window)) return;
-  if (Notification.permission === 'default') {
-    document.getElementById('notifBanner').style.display = 'flex';
-  } else if (Notification.permission === 'granted') {
-    notifGranted = true;
-  }
+  if (Notification.permission === 'default') document.getElementById('notifBanner').style.display = 'flex';
 }
-
 function requestNotifPermission() {
   if (!('Notification' in window)) return;
-  Notification.requestPermission().then(p => {
-    if (p === 'granted') {
-      notifGranted = true;
-      document.getElementById('notifBanner').style.display = 'none';
-    }
+  Notification.requestPermission().then(function(p) {
+    if (p === 'granted') document.getElementById('notifBanner').style.display = 'none';
   });
 }
 
-// ── Vacation toggle ────────────────────────────────────────────────────────
+// ── Vacation ───────────────────────────────────────────────────────────────
 function toggleVacation() {
   vacationActive = document.getElementById('vacationToggle').checked;
-  if (vacationActive) {
-    alarmFired = false;
-    startVacation();
-  } else {
-    stopVacation();
-  }
-  updateShareLinkDisplay();
+  if (vacationActive) { alarmFired = false; startVacation(); }
+  else stopVacation();
+  updateShareLink();
 }
 
 function startVacation() {
@@ -729,148 +395,110 @@ function startVacation() {
   document.getElementById('countdownSection').style.display = 'block';
   document.getElementById('alarmLabel').textContent = '🍺 ' + alarmTime;
   alarmFired = false;
+  totalSeconds = getSecondsUntilAlarm();
   startCountdown();
 }
 
 function stopVacation() {
   document.getElementById('vacBanner').classList.remove('show');
   document.getElementById('countdownSection').style.display = 'none';
-  clearInterval(countdown);
-  clearInterval(alarmCheckInterval);
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
 }
 
-function updateAlarm() {
+function updateAlarmTime() {
   alarmTime = document.getElementById('alarmTime').value;
   document.getElementById('alarmLabel').textContent = '🍺 ' + alarmTime;
   alarmFired = false;
-  if (vacationActive) {
-    clearInterval(countdown);
-    startCountdown();
-  }
-  updateShareLinkDisplay();
+  totalSeconds = getSecondsUntilAlarm();
+  if (vacationActive) { if (countdownTimer) clearInterval(countdownTimer); startCountdown(); }
+  updateShareLink();
 }
 
 // ── Countdown ──────────────────────────────────────────────────────────────
 function getSecondsUntilAlarm() {
-  const now = new Date();
-  const [h, m] = alarmTime.split(':').map(Number);
-  let target = new Date(now);
+  var now = new Date();
+  var parts = alarmTime.split(':');
+  var h = parseInt(parts[0], 10);
+  var m = parseInt(parts[1], 10);
+  var target = new Date(now);
   target.setHours(h, m, 0, 0);
-  let diff = Math.floor((target - now) / 1000);
-  if (diff < 0) diff += 86400; // next day
+  var diff = Math.floor((target - now) / 1000);
+  if (diff < 0) diff += 86400;
   return diff;
 }
 
 function startCountdown() {
-  clearInterval(countdown);
-  totalSecondsToAlarm = getSecondsUntilAlarm();
-  startTimestamp = Date.now();
-  updateCountdownDisplay();
-  countdown = setInterval(updateCountdownDisplay, 1000);
+  tick();
+  countdownTimer = setInterval(tick, 1000);
 }
 
-function updateCountdownDisplay() {
+function tick() {
   if (!vacationActive) return;
-  let remaining = getSecondsUntilAlarm();
-  const total = totalSecondsToAlarm || 1;
+  var remaining = getSecondsUntilAlarm();
 
-  // Check alarm — fire if within the target minute and not yet fired
-  const now = new Date();
-  const [ah, am] = alarmTime.split(':').map(Number);
-  const isAlarmTime = now.getHours() === ah && now.getMinutes() === am;
-  if (isAlarmTime && !alarmFired) {
+  // Fire alarm when minute matches
+  var now = new Date();
+  var parts = alarmTime.split(':');
+  var ah = parseInt(parts[0], 10);
+  var am = parseInt(parts[1], 10);
+  if (now.getHours() === ah && now.getMinutes() === am && !alarmFired) {
     alarmFired = true;
     fireAlarm();
   }
-  // Also fire if countdown just hit 0
-  if (remaining <= 0 && !alarmFired) {
-    alarmFired = true;
-    fireAlarm();
-    remaining = 0;
-  }
 
-  const hrs = Math.floor(remaining / 3600);
-  const mins = Math.floor((remaining % 3600) / 60);
-  const secs = remaining % 60;
+  var hrs = Math.floor(remaining / 3600);
+  var mins = Math.floor((remaining % 3600) / 60);
+  var secs = remaining % 60;
 
-  setDigit('dHours', String(hrs).padStart(2,'0'));
-  setDigit('dMins', String(mins).padStart(2,'0'));
-  setDigit('dSecs', String(secs).padStart(2,'0'));
+  document.getElementById('dHoursVal').textContent = pad(hrs);
+  document.getElementById('dMinsVal').textContent = pad(mins);
+  document.getElementById('dSecsVal').textContent = pad(secs);
 
-  // Progress bar: elapsed / total
-  const elapsed = totalSecondsToAlarm - remaining;
-  const pct = totalSecondsToAlarm > 0 ? Math.min(100, (elapsed / totalSecondsToAlarm) * 100) : 0;
+  var pct = totalSeconds > 0 ? Math.min(100, ((totalSeconds - remaining) / totalSeconds) * 100) : 0;
   document.getElementById('progressFill').style.width = pct + '%';
 
-  // Message
-  const msg = document.getElementById('countdownMsg');
+  var msgEl = document.getElementById('countdownMsg');
   if (remaining === 0) {
-    msg.textContent = '🍺 Det er øl-tid! Skål allesammen!';
-    msg.className = 'countdown-msg ready';
+    msgEl.textContent = '🍺 Det er øl-tid! Skål allesammen!';
+    msgEl.className = 'countdown-msg ready';
     document.getElementById('heroGlass').textContent = '🍻';
   } else if (remaining < 300) {
-    msg.textContent = '🔥 Under 5 min! Gå hen til køleskabet!';
-    msg.className = 'countdown-msg';
+    msgEl.textContent = '🔥 Under 5 min! Gå hen til køleskabet!';
+    msgEl.className = 'countdown-msg';
   } else if (remaining < 1800) {
-    msg.textContent = '⏳ Snart... det lugter næsten af øl!';
-    msg.className = 'countdown-msg';
+    msgEl.textContent = '⏳ Snart... det lugter næsten af øl!';
+    msgEl.className = 'countdown-msg';
   } else {
-    const msgs = [
-      'Hold ud – solens position er korrekt! ☀️',
-      'Solen skinner og øllen venter! 🌊',
-      'Endnu lidt tålmodighed, feriegæst! 🏖️',
-      'Reglen er hellig. Vent. 📜'
-    ];
-    msg.textContent = msgs[Math.floor(remaining / 1800) % msgs.length];
-    msg.className = 'countdown-msg';
+    var msgs = ['Hold ud – solens position er korrekt! ☀️','Solen skinner og øllen venter! 🌊','Endnu lidt tålmodighed, feriegæst! 🏖️','Reglen er hellig. Vent. 📜'];
+    msgEl.textContent = msgs[Math.floor(remaining / 1800) % msgs.length];
+    msgEl.className = 'countdown-msg';
   }
 }
 
-let prevDigits = {};
-function setDigit(id, val) {
-  const el = document.getElementById(id);
-  const unit = el.querySelector('.unit').outerHTML;
-  if (prevDigits[id] !== val) {
-    el.innerHTML = val + unit;
-    el.classList.remove('pulse');
-    void el.offsetWidth;
-    el.classList.add('pulse');
-    prevDigits[id] = val;
-  }
-}
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
 // ── Alarm ──────────────────────────────────────────────────────────────────
 function fireAlarm() {
-  // Browser notification
-  if (notifGranted) {
-    try {
-      new Notification('🍺 ØL-TID!', {
-        body: 'Det er ' + alarmTime + ' – første øl er tilladt! Skål! 🥂',
-      });
-    } catch(e) {}
+  // Notification
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try { new Notification('🍺 ØL-TID!', { body: 'Det er ' + alarmTime + ' – første øl er tilladt! Skål! 🥂' }); } catch(e) {}
   }
-
-  // Vibration (long pattern on Android)
-  if ('vibrate' in navigator) {
-    navigator.vibrate([500, 200, 500, 200, 500, 200, 1000]);
-  }
-
-  // Flash screen
+  // Vibration
+  if ('vibrate' in navigator) navigator.vibrate([500,200,500,200,500,200,1000]);
+  // Flash
   flashScreen();
-
-  // Play sound
-  playBeerSound();
-
-  // Show modal with all friends listed
-  let msg;
+  // Sound
+  playSkaaleSang();
+  // Friend message
+  var msg;
   if (friends.length === 0) {
     msg = 'God tur! Første øl er fortjent! 🥂';
   } else if (friends.length === 1) {
-    msg = `Skål til ${friends[0]} og dig! 🥂`;
+    msg = 'Skål til ' + friends[0] + ' og dig! 🥂';
   } else {
-    const last = friends[friends.length - 1];
-    const rest = friends.slice(0, -1);
-    msg = `Skål til ${rest.join(', ')} og ${last}! 🥂`;
+    var last = friends[friends.length - 1];
+    var rest = friends.slice(0, -1);
+    msg = 'Skål til ' + rest.join(', ') + ' og ' + last + '! 🥂';
   }
   document.getElementById('alarmFriendMsg').textContent = msg;
   document.getElementById('alarmOverlay').classList.add('show');
@@ -881,55 +509,34 @@ function dismissAlarm() {
   document.getElementById('heroGlass').textContent = '🍻';
 }
 
-function flashScreen() {
-  const flash = document.createElement('div');
-  flash.style.cssText = 'position:fixed;inset:0;background:#f5a623;z-index:9999;pointer-events:none;animation:flashfade 1.5s ease forwards;';
-  const style = document.createElement('style');
-  style.textContent = '@keyframes flashfade{0%{opacity:0.9}100%{opacity:0}}';
-  document.head.appendChild(style);
-  document.body.appendChild(flash);
-  setTimeout(() => { flash.remove(); style.remove(); }, 1600);
-}
-
 function testAlarm() {
   unlockAudio();
-  fireAlarm();
+  setTimeout(fireAlarm, 100);
 }
 
-function playBeerSound() {
+function flashScreen() {
+  var flash = document.createElement('div');
+  flash.style.cssText = 'position:fixed;inset:0;background:#f5a623;z-index:9999;pointer-events:none;animation:flashfade 1.5s ease forwards;';
+  document.body.appendChild(flash);
+  setTimeout(function() { flash.remove(); }, 1600);
+}
+
+function playSkaaleSang() {
   try {
     unlockAudio();
     if (!audioCtx) return;
-    const ctx = audioCtx;
-
+    var ctx = audioCtx;
     // "Vi skåler med vores venner" inspireret melodi
-    // Munter vals-agtig skålesang i C-dur
-    const notes = [
-      // Frase 1: Vi skå-ler med vo-res ven-ner
-      [523, 0.00, 0.25],   // C
-      [523, 0.25, 0.25],   // C
-      [659, 0.50, 0.35],   // E
-      [587, 0.85, 0.20],   // D
-      [523, 1.05, 0.40],   // C
-      // Frase 2: og drik-ker den kold-e øl
-      [587, 1.55, 0.25],   // D
-      [587, 1.80, 0.25],   // D
-      [698, 2.05, 0.35],   // F
-      [659, 2.40, 0.20],   // E
-      [587, 2.60, 0.45],   // D
-      // Frase 3: SKÅL! (fanfare)
-      [784, 3.15, 0.20],   // G
-      [880, 3.35, 0.20],   // A
-      [1047,3.55, 0.55],   // C høj
-      // Afsluttende akkord-jingle
-      [784, 4.20, 0.20],
-      [988, 4.40, 0.20],
-      [1175,4.60, 0.60],
+    var notes = [
+      [523,0.00,0.22],[523,0.24,0.22],[659,0.48,0.32],[587,0.82,0.18],[523,1.02,0.38],
+      [587,1.48,0.22],[587,1.72,0.22],[698,1.96,0.32],[659,2.30,0.18],[587,2.50,0.42],
+      [784,3.00,0.18],[880,3.20,0.18],[1047,3.40,0.52],
+      [784,4.00,0.18],[988,4.20,0.18],[1175,4.40,0.65]
     ];
-
-    notes.forEach(([freq, start, dur]) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+    notes.forEach(function(n) {
+      var freq = n[0], start = n[1], dur = n[2];
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.type = 'triangle';
@@ -940,63 +547,78 @@ function playBeerSound() {
       osc.start(ctx.currentTime + start);
       osc.stop(ctx.currentTime + start + dur + 0.1);
     });
-  } catch(e) { console.log('Sound error:', e); }
+  } catch(e) { console.log('Lyd fejl:', e); }
 }
 
 // ── Friends ────────────────────────────────────────────────────────────────
-const emojis = ['🍺','🏖️','☀️','🌊','🍹','🎉','🦀','🐚','⛱️','🌴'];
-function friendEmoji(name) {
-  let sum = 0;
-  for (let c of name) sum += c.charCodeAt(0);
-  return emojis[sum % emojis.length];
+var friendEmojis = ['🍺','🏖️','☀️','🌊','🍹','🎉','🦀','🐚','🌴','⛱️'];
+function getFriendEmoji(name) {
+  var sum = 0;
+  for (var i = 0; i < name.length; i++) sum += name.charCodeAt(i);
+  return friendEmojis[sum % friendEmojis.length];
 }
 
 function renderFriends() {
-  const list = document.getElementById('friendsList');
+  var list = document.getElementById('friendsList');
   list.innerHTML = '';
   if (friends.length === 0) {
-    list.innerHTML = '<li style="font-size:0.85rem;color:#aaa;padding:8px 0;font-weight:600;">Ingen venner tilføjet endnu 😔</li>';
+    list.innerHTML = '<li style="font-size:.85rem;color:#aaa;padding:8px 0;font-weight:600;">Ingen venner tilføjet endnu 😔</li>';
     return;
   }
-  friends.forEach((f, i) => {
-    const li = document.createElement('li');
+  friends.forEach(function(f, i) {
+    var li = document.createElement('li');
     li.className = 'friend-item';
-    li.innerHTML = `
-      <div class="friend-avatar">${friendEmoji(f)}</div>
-      <span>${escHtml(f)}</span>
-      <button class="friend-remove" onclick="removeFriend(${i})" title="Fjern">✕</button>
-    `;
+    li.innerHTML = '<div class="friend-avatar">' + getFriendEmoji(f) + '</div><span>' + escHtml(f) + '</span><button class="friend-remove" onclick="removeFriend(' + i + ')">✕</button>';
     list.appendChild(li);
   });
 }
 
 function addFriend() {
-  const input = document.getElementById('friendInput');
-  const name = input.value.trim();
-  if (!name || friends.includes(name)) { input.value = ''; return; }
+  var input = document.getElementById('friendInput');
+  var name = input.value.trim();
+  if (!name || friends.indexOf(name) !== -1) { input.value = ''; return; }
   friends.push(name);
   input.value = '';
   renderFriends();
-  updateShareLinkDisplay();
+  updateShareLink();
 }
 
 function removeFriend(i) {
   friends.splice(i, 1);
   renderFriends();
-  updateShareLinkDisplay();
+  updateShareLink();
 }
 
 function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ── Share link ─────────────────────────────────────────────────────────────
-function updateShareLinkDisplay() {
-  const base = location.origin + location.pathname;
-  const params = new URLSearchParams({
-    time: alarmTime,
-    active: vacationActive ? '1' : '0',
-    friends: JSON.stringify(friends)
-  });
-  const url = base + '?' + params.toString();
-  document.getElementById('shareLink').textConte
+// ── Share ──────────────────────────────────────────────────────────────────
+function updateShareLink() {
+  var base = location.origin + location.pathname;
+  var q = '?time=' + encodeURIComponent(alarmTime) + '&active=' + (vacationActive?'1':'0') + '&friends=' + encodeURIComponent(JSON.stringify(friends));
+  document.getElementById('shareLink').textContent = vacationActive ? (base + q) : 'Aktiver ferie-tilstand for at generere link';
+}
+
+function copyShareLink() {
+  if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  var txt = document.getElementById('shareLink').textContent;
+  navigator.clipboard.writeText(txt).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ Kopieret!';
+    setTimeout(function(){ btn.textContent = '📋 Kopier link'; }, 2000);
+  }).catch(function() { prompt('Kopier dette link:', txt); });
+}
+
+function doShare() {
+  if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  var txt = document.getElementById('shareLink').textContent;
+  if (navigator.share) {
+    navigator.share({ title: 'Ferie Øl 🍺', text: '🍺 Øl-alarm kl. ' + alarmTime + '! ', url: txt });
+  } else {
+    navigator.clipboard.writeText(txt).then(function(){ alert('Link kopieret!'); });
+  }
+}
+</script>
+</body>
+</html>
