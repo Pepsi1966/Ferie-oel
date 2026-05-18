@@ -9,111 +9,57 @@
 <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --amber: #f5a623;
-    --amber-dark: #d4881a;
-    --amber-light: #ffd580;
-    --foam: #fff8e7;
-    --brown: #3d1c02;
-    --brown-mid: #7a3b10;
-    --green: #2ecc71;
+    --amber: #f5a623; --amber-dark: #d4881a; --amber-light: #ffd580;
+    --foam: #fff8e7; --brown: #3d1c02; --brown-mid: #7a3b10; --green: #2ecc71;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Nunito', sans-serif;
     background: linear-gradient(160deg, #87ceeb 0%, #b8e4f9 40%, #f4d9a0 100%);
-    min-height: 100dvh;
-    overflow-x: hidden;
-    position: relative;
+    min-height: 100dvh; overflow-x: hidden;
   }
   .bg-sun {
-    position: fixed; top: -60px; right: -60px;
-    width: 200px; height: 200px;
+    position: fixed; top: -60px; right: -60px; width: 200px; height: 200px;
     background: radial-gradient(circle, #ffe066 30%, #ffd000 60%, transparent 75%);
-    border-radius: 50%;
-    animation: sunpulse 4s ease-in-out infinite;
-    z-index: 0; pointer-events: none;
+    border-radius: 50%; animation: sunpulse 4s ease-in-out infinite; z-index: 0; pointer-events: none;
   }
   @keyframes sunpulse { 0%,100%{transform:scale(1);opacity:.9} 50%{transform:scale(1.07);opacity:1} }
-  .bg-wave {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 100px;
-    z-index: 0; pointer-events: none; overflow: hidden;
-  }
+  .bg-wave { position: fixed; bottom: 0; left: 0; right: 0; height: 100px; z-index: 0; pointer-events: none; overflow: hidden; }
   .bg-wave svg { width: 200%; animation: waveroll 6s linear infinite; }
   @keyframes waveroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-  .container {
-    position: relative; z-index: 1;
-    max-width: 480px; margin: 0 auto; padding: 16px 16px 120px;
-  }
+  .container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 16px 16px 120px; }
   .header { text-align: center; padding: 20px 0 10px; }
   .header h1 {
     font-family: 'Boogaloo', cursive; font-size: 3rem; color: var(--brown);
-    text-shadow: 3px 3px 0 var(--amber-light), 4px 4px 0 rgba(0,0,0,.1);
-    line-height: 1;
+    text-shadow: 3px 3px 0 var(--amber-light), 4px 4px 0 rgba(0,0,0,.1); line-height: 1;
   }
   .header .tagline { font-size: .9rem; color: var(--brown-mid); font-weight: 700; margin-top: 4px; }
   .beer-hero { text-align: center; margin: 10px 0 6px; }
-  .beer-hero .glass {
-    font-size: 5rem; display: inline-block;
-    animation: tilt 3s ease-in-out infinite;
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,.2));
-  }
+  .beer-hero .glass { font-size: 5rem; display: inline-block; animation: tilt 3s ease-in-out infinite; filter: drop-shadow(2px 4px 6px rgba(0,0,0,.2)); }
   @keyframes tilt { 0%,100%{transform:rotate(-5deg) scale(1)} 50%{transform:rotate(5deg) scale(1.08)} }
   .card {
     background: rgba(255,255,255,.88); backdrop-filter: blur(10px);
     border-radius: 20px; padding: 20px; margin-bottom: 14px;
-    box-shadow: 0 4px 20px rgba(61,28,2,.12);
-    border: 2px solid rgba(245,166,35,.25);
+    box-shadow: 0 4px 20px rgba(61,28,2,.12); border: 2px solid rgba(245,166,35,.25);
   }
-  .card-title {
-    font-family: 'Boogaloo', cursive; font-size: 1.2rem;
-    color: var(--brown-mid); margin-bottom: 14px;
-    display: flex; align-items: center; gap: 8px;
-  }
+  .card-title { font-family: 'Boogaloo', cursive; font-size: 1.2rem; color: var(--brown-mid); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
   .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .toggle-label { font-weight: 700; color: var(--brown); font-size: 1rem; }
   .toggle { position: relative; width: 58px; height: 30px; }
   .toggle input { display: none; }
-  .toggle-track {
-    position: absolute; inset: 0; border-radius: 15px;
-    background: #ccc; transition: background .3s; cursor: pointer;
-  }
+  .toggle-track { position: absolute; inset: 0; border-radius: 15px; background: #ccc; transition: background .3s; cursor: pointer; }
   .toggle input:checked + .toggle-track { background: var(--amber); }
-  .toggle-thumb {
-    position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
-    border-radius: 50%; background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,.2);
-    transition: transform .3s; pointer-events: none;
-  }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: white; box-shadow: 0 2px 4px rgba(0,0,0,.2); transition: transform .3s; pointer-events: none; }
   .toggle input:checked ~ .toggle-thumb { transform: translateX(28px); }
   .time-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .time-row label { font-weight: 700; color: var(--brown); font-size: .9rem; flex: 1; }
-  .time-input {
-    border: 2px solid var(--amber); border-radius: 10px; padding: 8px 12px;
-    font-size: 1.3rem; font-family: 'Boogaloo', cursive; color: var(--brown);
-    background: var(--foam); text-align: center; width: 120px; outline: none;
-  }
+  .time-input { border: 2px solid var(--amber); border-radius: 10px; padding: 8px 12px; font-size: 1.3rem; font-family: 'Boogaloo', cursive; color: var(--brown); background: var(--foam); text-align: center; width: 120px; outline: none; }
   .countdown-wrap { text-align: center; padding: 10px 0 4px; }
-  .countdown-label {
-    font-size: .85rem; color: var(--brown-mid); font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
-  }
+  .countdown-label { font-size: .85rem; color: var(--brown-mid); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
   .countdown-digits { display: flex; justify-content: center; gap: 6px; align-items: center; }
-  .digit-block {
-    background: var(--brown); color: var(--amber-light);
-    border-radius: 12px; padding: 10px 14px;
-    font-family: 'Boogaloo', cursive; font-size: 2.2rem; line-height: 1;
-    min-width: 58px; text-align: center;
-    box-shadow: 0 4px 0 var(--amber-dark), 0 6px 12px rgba(0,0,0,.2);
-  }
-  .digit-unit {
-    display: block; font-family: 'Nunito', sans-serif;
-    font-size: .5rem; font-weight: 700; letter-spacing: .5px;
-    color: var(--amber); text-transform: uppercase; margin-top: 2px;
-  }
-  .colon {
-    font-family: 'Boogaloo', cursive; font-size: 2.2rem; color: var(--brown);
-    line-height: 1; margin-bottom: 14px; animation: blink 1s step-start infinite;
-  }
+  .digit-block { background: var(--brown); color: var(--amber-light); border-radius: 12px; padding: 10px 14px; font-family: 'Boogaloo', cursive; font-size: 2.2rem; line-height: 1; min-width: 58px; text-align: center; box-shadow: 0 4px 0 var(--amber-dark), 0 6px 12px rgba(0,0,0,.2); }
+  .digit-unit { display: block; font-family: 'Nunito', sans-serif; font-size: .5rem; font-weight: 700; color: var(--amber); text-transform: uppercase; margin-top: 2px; }
+  .colon { font-family: 'Boogaloo', cursive; font-size: 2.2rem; color: var(--brown); line-height: 1; margin-bottom: 14px; animation: blink 1s step-start infinite; }
   @keyframes blink { 50%{opacity:.2} }
   .countdown-msg { font-size: .88rem; font-weight: 700; color: var(--brown-mid); margin-top: 10px; }
   .countdown-msg.ready { color: var(--green); font-size: 1.1rem; animation: glow 1s ease-in-out infinite alternate; }
@@ -122,71 +68,30 @@
   .progress-label { display: flex; justify-content: space-between; font-size: .75rem; font-weight: 700; color: var(--brown-mid); margin-bottom: 5px; }
   .progress-track { height: 12px; background: rgba(245,166,35,.2); border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(245,166,35,.4); }
   .progress-fill { height: 100%; background: linear-gradient(90deg,#f5c842,var(--amber-dark)); border-radius: 6px; transition: width 1s linear; width: 0%; }
-  .vacation-banner {
-    display: none; background: linear-gradient(135deg,var(--amber),var(--amber-dark));
-    color: var(--brown); border-radius: 16px; padding: 14px 18px; margin-bottom: 14px;
-    font-family: 'Boogaloo', cursive; font-size: 1.15rem; text-align: center;
-    box-shadow: 0 4px 16px rgba(245,166,35,.4); border: 3px solid var(--amber-light);
-  }
+  .vacation-banner { display: none; background: linear-gradient(135deg,var(--amber),var(--amber-dark)); color: var(--brown); border-radius: 16px; padding: 14px 18px; margin-bottom: 14px; font-family: 'Boogaloo', cursive; font-size: 1.15rem; text-align: center; box-shadow: 0 4px 16px rgba(245,166,35,.4); border: 3px solid var(--amber-light); }
   .vacation-banner.show { display: block; }
   .friends-list { list-style: none; margin-bottom: 10px; }
-  .friend-item {
-    display: flex; align-items: center; gap: 10px; padding: 8px 0;
-    border-bottom: 1px dashed rgba(245,166,35,.4);
-    font-weight: 600; color: var(--brown); font-size: .95rem;
-  }
+  .friend-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed rgba(245,166,35,.4); font-weight: 600; color: var(--brown); font-size: .95rem; }
   .friend-item:last-child { border-bottom: none; }
-  .friend-avatar {
-    width: 34px; height: 34px; border-radius: 50%;
-    background: linear-gradient(135deg,var(--amber),var(--amber-dark));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; flex-shrink: 0;
-  }
+  .friend-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,var(--amber),var(--amber-dark)); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
   .friend-remove { margin-left: auto; background: none; border: none; cursor: pointer; font-size: 1.1rem; color: #aaa; padding: 4px; }
+  .friend-remove:active { color: #e74c3c; }
   .add-friend-row { display: flex; gap: 8px; }
-  .add-friend-input {
-    flex: 1; border: 2px solid var(--amber); border-radius: 10px; padding: 9px 12px;
-    font-size: .95rem; font-family: 'Nunito', sans-serif; color: var(--brown);
-    background: var(--foam); outline: none;
-  }
-  .share-link-box {
-    background: var(--foam); border: 2px dashed var(--amber); border-radius: 12px;
-    padding: 12px; font-size: .78rem; color: var(--brown-mid);
-    word-break: break-all; margin: 10px 0; font-family: monospace;
-  }
-  .btn {
-    border: none; border-radius: 12px; padding: 11px 18px;
-    font-family: 'Boogaloo', cursive; font-size: 1.05rem; cursor: pointer;
-    transition: transform .12s; letter-spacing: .5px;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
+  .add-friend-input { flex: 1; border: 2px solid var(--amber); border-radius: 10px; padding: 9px 12px; font-size: .95rem; font-family: 'Nunito', sans-serif; color: var(--brown); background: var(--foam); outline: none; }
+  .share-link-box { background: var(--foam); border: 2px dashed var(--amber); border-radius: 12px; padding: 12px; font-size: .78rem; color: var(--brown-mid); word-break: break-all; margin: 10px 0; font-family: monospace; }
+  .btn { border: none; border-radius: 12px; padding: 11px 18px; font-family: 'Boogaloo', cursive; font-size: 1.05rem; cursor: pointer; transition: transform .12s; letter-spacing: .5px; display: inline-flex; align-items: center; gap: 6px; }
   .btn:active { transform: scale(.96); }
   .btn-amber { background: var(--amber); color: var(--brown); box-shadow: 0 3px 0 var(--amber-dark); }
   .btn-brown { background: var(--brown); color: var(--amber-light); box-shadow: 0 3px 0 #1a0a00; }
+  .btn-blue { background: #0084ff; color: white; box-shadow: 0 3px 0 #0060cc; }
+  .btn-green { background: #25d366; color: white; box-shadow: 0 3px 0 #128c4e; }
   .btn-full { width: 100%; justify-content: center; }
-  .notif-banner {
-    background: #fff3cd; border: 2px solid #ffc107; border-radius: 12px;
-    padding: 12px 16px; font-size: .85rem; color: #856404; font-weight: 600;
-    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
-  }
-  .notif-banner button {
-    margin-left: auto; background: #ffc107; color: #856404; border: none;
-    border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; font-size: .8rem;
-  }
-  /* Alarm overlay */
-  .alarm-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(61,28,2,.75); z-index: 100;
-    align-items: center; justify-content: center; padding: 20px;
-  }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .notif-banner { background: #fff3cd; border: 2px solid #ffc107; border-radius: 12px; padding: 12px 16px; font-size: .85rem; color: #856404; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .notif-banner button { margin-left: auto; background: #ffc107; color: #856404; border: none; border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; font-size: .8rem; }
+  .alarm-overlay { display: none; position: fixed; inset: 0; background: rgba(61,28,2,.75); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
   .alarm-overlay.show { display: flex; }
-  .alarm-modal {
-    background: var(--foam); border-radius: 24px; padding: 32px 24px;
-    text-align: center; max-width: 340px; width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
-    animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
-    border: 4px solid var(--amber);
-  }
+  .alarm-modal { background: var(--foam); border-radius: 24px; padding: 32px 24px; text-align: center; max-width: 340px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.4); animation: popIn .4s cubic-bezier(.34,1.56,.64,1); border: 4px solid var(--amber); }
   @keyframes popIn { 0%{transform:scale(.5);opacity:0} 100%{transform:scale(1);opacity:1} }
   .alarm-modal .big-beer { font-size: 5rem; animation: bounce .5s ease infinite alternate; display: block; }
   @keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-12px)} }
@@ -197,7 +102,6 @@
 </style>
 </head>
 <body>
-
 <div class="bg-sun"></div>
 <div class="bg-wave">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
@@ -207,24 +111,18 @@
 </div>
 
 <div class="container">
-
   <div class="header">
     <h1>🌴 Ferie Øl 🌴</h1>
     <div class="tagline">For den seriøse feriebrygg-entusiast</div>
   </div>
-
-  <div class="beer-hero">
-    <span class="glass" id="heroGlass">🍺</span>
-  </div>
+  <div class="beer-hero"><span class="glass" id="heroGlass">🍺</span></div>
 
   <div class="notif-banner" id="notifBanner" style="display:none">
     🔔 Aktiver notifikationer for øl-alarmen
     <button onclick="requestNotifPermission()">Tillad</button>
   </div>
 
-  <div class="vacation-banner" id="vacBanner">
-    ☀️ FERIE AKTIVERET! Øl-reglerne er i kraft! ☀️
-  </div>
+  <div class="vacation-banner" id="vacBanner">☀️ FERIE AKTIVERET! Øl-reglerne er i kraft! ☀️</div>
 
   <!-- Vacation toggle -->
   <div class="card">
@@ -244,41 +142,25 @@
       <div class="countdown-wrap">
         <div class="countdown-label">⏳ Tid til første øl</div>
         <div class="countdown-digits">
-          <div class="digit-block" id="dHours">
-            <span id="dHoursVal">00</span>
-            <span class="digit-unit">timer</span>
-          </div>
+          <div class="digit-block"><span id="dHoursVal">00</span><span class="digit-unit">timer</span></div>
           <div class="colon">:</div>
-          <div class="digit-block" id="dMins">
-            <span id="dMinsVal">00</span>
-            <span class="digit-unit">min</span>
-          </div>
+          <div class="digit-block"><span id="dMinsVal">00</span><span class="digit-unit">min</span></div>
           <div class="colon">:</div>
-          <div class="digit-block" id="dSecs">
-            <span id="dSecsVal">00</span>
-            <span class="digit-unit">sek</span>
-          </div>
+          <div class="digit-block"><span id="dSecsVal">00</span><span class="digit-unit">sek</span></div>
         </div>
         <div class="progress-wrap">
-          <div class="progress-label">
-            <span>🌅 Nu</span>
-            <span id="alarmLabel">🍺 11:00</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
+          <div class="progress-label"><span>🌅 Nu</span><span id="alarmLabel">🍺 11:00</span></div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
         </div>
         <div class="countdown-msg" id="countdownMsg">Hold ud – snart er det tid! 🕐</div>
-        <button class="btn btn-brown btn-full" onclick="testAlarm()" style="margin-top:12px;">
-          🔔 Test alarm
-        </button>
+        <button class="btn btn-brown btn-full" onclick="testAlarm()" style="margin-top:12px;">🔔 Test alarm</button>
       </div>
     </div>
   </div>
 
   <!-- Friends -->
   <div class="card">
-    <div class="card-title">👥 Dine ferie-kompanioner</div>
+    <div class="card-title">👥 Ferie-gruppen <span style="font-size:.8rem;color:#aaa;font-family:'Nunito',sans-serif;font-weight:600;">(gemmes automatisk)</span></div>
     <ul class="friends-list" id="friendsList"></ul>
     <div class="add-friend-row">
       <input type="text" id="friendInput" class="add-friend-input" placeholder="Skriv navn..." maxlength="30"
@@ -289,13 +171,15 @@
 
   <!-- Share -->
   <div class="card">
-    <div class="card-title">🔗 Del med venner</div>
+    <div class="card-title">🔗 Del med gruppen</div>
     <p style="font-size:.88rem;color:var(--brown-mid);font-weight:600;margin-bottom:12px;">
-      Send linket til dine ferie-venner – så får I øl-alarmen på samme tid!
+      Send linket til hele gruppen — alle starter med samme tid og navne.
     </p>
     <div class="share-link-box" id="shareLink">Aktiver ferie-tilstand for at generere link</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn btn-amber" onclick="copyShareLink()" id="copyBtn">📋 Kopier link</button>
+    <div class="btn-row">
+      <button class="btn btn-amber" onclick="copyShareLink()" id="copyBtn">📋 Kopier</button>
+      <button class="btn btn-green" onclick="shareWhatsApp()">💬 WhatsApp</button>
+      <button class="btn btn-blue" onclick="shareMessenger()">📱 Messenger</button>
       <button class="btn btn-brown" onclick="doShare()">📤 Del via...</button>
     </div>
   </div>
@@ -311,7 +195,6 @@
       <div style="margin-top:8px;font-size:.8rem;color:#aaa;">*Øl-reglerne er for dem over 18 år 🙃</div>
     </div>
   </div>
-
 </div>
 
 <!-- Alarm Modal -->
@@ -319,10 +202,7 @@
   <div class="alarm-modal">
     <span class="big-beer">🍺</span>
     <h2>DET ER ØL-TID!</h2>
-    <div class="skaalesang">
-      🎵 Vi skåler med vores venner<br>
-      og drikker den kolde øl! 🎵
-    </div>
+    <div class="skaalesang">🎵 Vi skåler med vores venner<br>og drikker den kolde øl! 🎵</div>
     <div class="alarm-friends" id="alarmFriendMsg">Skål til alle! 🥂</div>
     <button class="btn btn-amber btn-full" onclick="dismissAlarm()" style="font-size:1.3rem;padding:14px;">
       🍻 SKÅL! Luk alarm
@@ -331,7 +211,6 @@
 </div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────────
 var vacationActive = false;
 var friends = [];
 var alarmTime = '11:00';
@@ -341,15 +220,7 @@ var totalSeconds = 0;
 var audioCtx = null;
 var skaalAudio = null;
 
-function preloadAudio() {
-  try {
-    skaalAudio = new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
-    skaalAudio.preload = 'auto';
-    skaalAudio.load();
-  } catch(e) {}
-}
-
-// ── Audio unlock (required on mobile) ─────────────────────────────────────
+// ── Audio unlock ───────────────────────────────────────────────────────────
 function unlockAudio() {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -359,18 +230,51 @@ function unlockAudio() {
 document.addEventListener('touchstart', unlockAudio);
 document.addEventListener('click', unlockAudio);
 
-// Preload audio as soon as page loads
-window.addEventListener('load', preloadAudio);
+function preloadAudio() {
+  try {
+    skaalAudio = new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
+    skaalAudio.preload = 'auto';
+    skaalAudio.load();
+  } catch(e) {}
+}
+
+// ── LocalStorage ──────────────────────────────────────────────────────────
+function saveData() {
+  try {
+    localStorage.setItem('ferieoel_friends', JSON.stringify(friends));
+    localStorage.setItem('ferieoel_time', alarmTime);
+  } catch(e) {}
+}
+
+function loadData() {
+  try {
+    var f = localStorage.getItem('ferieoel_friends');
+    if (f) friends = JSON.parse(f);
+    var t = localStorage.getItem('ferieoel_time');
+    if (t) {
+      alarmTime = t;
+      document.getElementById('alarmTime').value = t;
+    }
+  } catch(e) {}
+}
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('load', function() {
+  loadData();
   var params = new URLSearchParams(location.search);
   if (params.get('time')) {
     alarmTime = params.get('time');
     document.getElementById('alarmTime').value = alarmTime;
   }
   if (params.get('friends')) {
-    try { friends = JSON.parse(decodeURIComponent(params.get('friends'))); } catch(e) {}
+    try {
+      var urlFriends = JSON.parse(decodeURIComponent(params.get('friends')));
+      // Merge URL friends with saved friends (no duplicates)
+      urlFriends.forEach(function(f) {
+        if (friends.indexOf(f) === -1) friends.push(f);
+      });
+      saveData();
+    } catch(e) {}
   }
   if (params.get('active') === '1') {
     vacationActive = true;
@@ -380,6 +284,7 @@ window.addEventListener('load', function() {
   renderFriends();
   checkNotif();
   updateShareLink();
+  preloadAudio();
 });
 
 // ── Notifications ──────────────────────────────────────────────────────────
@@ -422,6 +327,7 @@ function updateAlarmTime() {
   document.getElementById('alarmLabel').textContent = '🍺 ' + alarmTime;
   alarmFired = false;
   totalSeconds = getSecondsUntilAlarm();
+  saveData();
   if (vacationActive) { if (countdownTimer) clearInterval(countdownTimer); startCountdown(); }
   updateShareLink();
 }
@@ -430,10 +336,8 @@ function updateAlarmTime() {
 function getSecondsUntilAlarm() {
   var now = new Date();
   var parts = alarmTime.split(':');
-  var h = parseInt(parts[0], 10);
-  var m = parseInt(parts[1], 10);
   var target = new Date(now);
-  target.setHours(h, m, 0, 0);
+  target.setHours(parseInt(parts[0],10), parseInt(parts[1],10), 0, 0);
   var diff = Math.floor((target - now) / 1000);
   if (diff < 0) diff += 86400;
   return diff;
@@ -447,28 +351,20 @@ function startCountdown() {
 function tick() {
   if (!vacationActive) return;
   var remaining = getSecondsUntilAlarm();
-
-  // Fire alarm when minute matches
   var now = new Date();
   var parts = alarmTime.split(':');
-  var ah = parseInt(parts[0], 10);
-  var am = parseInt(parts[1], 10);
-  if (now.getHours() === ah && now.getMinutes() === am && !alarmFired) {
+  if (now.getHours() === parseInt(parts[0],10) && now.getMinutes() === parseInt(parts[1],10) && !alarmFired) {
     alarmFired = true;
     fireAlarm();
   }
-
   var hrs = Math.floor(remaining / 3600);
   var mins = Math.floor((remaining % 3600) / 60);
   var secs = remaining % 60;
-
   document.getElementById('dHoursVal').textContent = pad(hrs);
   document.getElementById('dMinsVal').textContent = pad(mins);
   document.getElementById('dSecsVal').textContent = pad(secs);
-
   var pct = totalSeconds > 0 ? Math.min(100, ((totalSeconds - remaining) / totalSeconds) * 100) : 0;
   document.getElementById('progressFill').style.width = pct + '%';
-
   var msgEl = document.getElementById('countdownMsg');
   if (remaining === 0) {
     msgEl.textContent = '🍺 Det er øl-tid! Skål allesammen!';
@@ -491,22 +387,19 @@ function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
 // ── Alarm ──────────────────────────────────────────────────────────────────
 function fireAlarm() {
-  // Notification
   if ('Notification' in window && Notification.permission === 'granted') {
     try { new Notification('🍺 ØL-TID!', { body: 'Det er ' + alarmTime + ' – første øl er tilladt! Skål! 🥂' }); } catch(e) {}
   }
-  // Vibration
   if ('vibrate' in navigator) navigator.vibrate([500,200,500,200,500,200,1000]);
-  // Flash
   flashScreen();
-  // Sound
   playSkaaleSang();
-  // Friend message
+
+  // Alarm-besked med ALLE navne fra listen
   var msg;
   if (friends.length === 0) {
     msg = 'God tur! Første øl er fortjent! 🥂';
   } else if (friends.length === 1) {
-    msg = 'Skål til ' + friends[0] + ' og dig! 🥂';
+    msg = 'Skål til ' + friends[0] + '! 🥂';
   } else {
     var last = friends[friends.length - 1];
     var rest = friends.slice(0, -1);
@@ -519,6 +412,7 @@ function fireAlarm() {
 function dismissAlarm() {
   document.getElementById('alarmOverlay').classList.remove('show');
   document.getElementById('heroGlass').textContent = '🍻';
+  if (skaalAudio) { skaalAudio.pause(); skaalAudio.currentTime = 0; }
 }
 
 function testAlarm() {
@@ -535,20 +429,11 @@ function flashScreen() {
 
 function playSkaaleSang() {
   try {
-    // Genbrug preloadet audio eller opret ny
     var audio = skaalAudio || new Audio('https://pepsi1966.github.io/Ferie-oel/skaal.mp3');
     audio.currentTime = 0;
     audio.volume = 1.0;
-    var playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(function(e) {
-        console.log('MP3 fejl, bruger melodi:', e);
-        playMelodi();
-      });
-    }
-  } catch(e) {
-    playMelodi();
-  }
+    audio.play().catch(function(e) { playMelodi(); });
+  } catch(e) { playMelodi(); }
 }
 
 function playMelodi() {
@@ -563,8 +448,7 @@ function playMelodi() {
       [784,4.00,0.18],[988,4.20,0.18],[1175,4.40,0.65]
     ];
     notes.forEach(function(n) {
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
+      var osc = ctx.createOscillator(); var gain = ctx.createGain();
       osc.connect(gain); gain.connect(ctx.destination);
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(n[0], ctx.currentTime + n[1]);
@@ -595,7 +479,7 @@ function renderFriends() {
   friends.forEach(function(f, i) {
     var li = document.createElement('li');
     li.className = 'friend-item';
-    li.innerHTML = '<div class="friend-avatar">' + getFriendEmoji(f) + '</div><span>' + escHtml(f) + '</span><button class="friend-remove" onclick="removeFriend(' + i + ')">✕</button>';
+    li.innerHTML = '<div class="friend-avatar">' + getFriendEmoji(f) + '</div><span>' + escHtml(f) + '</span><button class="friend-remove" onclick="removeFriend(' + i + ')" title="Fjern">✕</button>';
     list.appendChild(li);
   });
 }
@@ -607,12 +491,14 @@ function addFriend() {
   friends.push(name);
   input.value = '';
   renderFriends();
+  saveData();
   updateShareLink();
 }
 
 function removeFriend(i) {
   friends.splice(i, 1);
   renderFriends();
+  saveData();
   updateShareLink();
 }
 
@@ -621,29 +507,49 @@ function escHtml(s) {
 }
 
 // ── Share ──────────────────────────────────────────────────────────────────
+function getShareUrl() {
+  var base = 'https://pepsi1966.github.io/Ferie-oel/';
+  var q = '?time=' + encodeURIComponent(alarmTime) + '&active=1&friends=' + encodeURIComponent(JSON.stringify(friends));
+  return base + q;
+}
+
 function updateShareLink() {
-  var base = location.origin + location.pathname;
-  var q = '?time=' + encodeURIComponent(alarmTime) + '&active=' + (vacationActive?'1':'0') + '&friends=' + encodeURIComponent(JSON.stringify(friends));
-  document.getElementById('shareLink').textContent = vacationActive ? (base + q) : 'Aktiver ferie-tilstand for at generere link';
+  document.getElementById('shareLink').textContent = vacationActive ? getShareUrl() : 'Aktiver ferie-tilstand for at generere link';
 }
 
 function copyShareLink() {
   if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
-  var txt = document.getElementById('shareLink').textContent;
-  navigator.clipboard.writeText(txt).then(function() {
+  navigator.clipboard.writeText(getShareUrl()).then(function() {
     var btn = document.getElementById('copyBtn');
     btn.textContent = '✅ Kopieret!';
-    setTimeout(function(){ btn.textContent = '📋 Kopier link'; }, 2000);
-  }).catch(function() { prompt('Kopier dette link:', txt); });
+    setTimeout(function(){ btn.textContent = '📋 Kopier'; }, 2000);
+  }).catch(function() { prompt('Kopier dette link:', getShareUrl()); });
+}
+
+function shareWhatsApp() {
+  if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  var txt = '🍺 Ferie Øl-alarm kl. ' + alarmTime + '! Klik og deltag: ' + getShareUrl();
+  window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+}
+
+function shareMessenger() {
+  if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  var url = getShareUrl();
+  // Messenger deep link — virker på mobil med Messenger installeret
+  window.open('fb-messenger://share?link=' + encodeURIComponent(url), '_blank');
+  // Fallback til Facebook dialog efter kort pause
+  setTimeout(function() {
+    window.open('https://www.facebook.com/dialog/send?link=' + encodeURIComponent(url) + '&app_id=291494419107518&redirect_uri=' + encodeURIComponent(url), '_blank');
+  }, 1500);
 }
 
 function doShare() {
   if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
-  var txt = document.getElementById('shareLink').textContent;
+  var txt = '🍺 Ferie Øl-alarm kl. ' + alarmTime + '! ';
   if (navigator.share) {
-    navigator.share({ title: 'Ferie Øl 🍺', text: '🍺 Øl-alarm kl. ' + alarmTime + '! ', url: txt });
+    navigator.share({ title: 'Ferie Øl 🍺', text: txt, url: getShareUrl() });
   } else {
-    navigator.clipboard.writeText(txt).then(function(){ alert('Link kopieret!'); });
+    navigator.clipboard.writeText(getShareUrl()).then(function(){ alert('Link kopieret!'); });
   }
 }
 </script>
