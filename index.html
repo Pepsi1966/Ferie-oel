@@ -184,6 +184,22 @@
     </div>
   </div>
 
+  <!-- Beer counter -->
+  <div class="card">
+    <div class="card-title">🍺 Øl-tæller <span style="font-size:.75rem;color:#aaa;font-family:'Nunito',sans-serif;font-weight:600;">(nulstilles kl. 03:00)</span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="text-align:center;flex:1;">
+        <div style="font-family:'Boogaloo',cursive;font-size:3.5rem;color:var(--brown);line-height:1;" id="beerCountDisplay">0</div>
+        <div style="font-size:.75rem;font-weight:700;color:var(--brown-mid);text-transform:uppercase;letter-spacing:.5px;">Øl i dag</div>
+      </div>
+      <div style="flex:2;background:var(--foam);border:2px solid var(--amber);border-radius:14px;padding:14px 16px;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--brown-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">👀 Den konen ved:</div>
+        <div style="font-family:'Boogaloo',cursive;font-size:1.05rem;color:var(--brown);line-height:1.3;" id="koneMsg">Du har ikke delt nogen links endnu</div>
+      </div>
+    </div>
+    <button class="btn btn-brown btn-full" onclick="resetBeerCount()" style="font-size:.9rem;padding:8px;">↺ Nulstil tæller</button>
+  </div>
+
   <!-- Rules -->
   <div class="card">
     <div class="card-title">📜 Reglerne (ufravigelige)</div>
@@ -285,6 +301,7 @@ window.addEventListener('load', function() {
   checkNotif();
   updateShareLink();
   preloadAudio();
+  updateBeerDisplay(loadBeerCount());
 });
 
 // ── Notifications ──────────────────────────────────────────────────────────
@@ -506,6 +523,66 @@ function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// ── Beer counter ──────────────────────────────────────────────────────────
+function loadBeerCount() {
+  try {
+    var saved = localStorage.getItem('ferieoel_beers');
+    if (!saved) return 0;
+    var data = JSON.parse(saved);
+    // Nulstil hvis det er efter kl 03 næste dag
+    var now = new Date();
+    var savedDate = new Date(data.timestamp);
+    var reset = new Date(savedDate);
+    reset.setDate(reset.getDate() + (savedDate.getHours() >= 3 ? 1 : 0));
+    reset.setHours(3, 0, 0, 0);
+    if (now >= reset) {
+      localStorage.removeItem('ferieoel_beers');
+      return 0;
+    }
+    return data.count || 0;
+  } catch(e) { return 0; }
+}
+
+function saveBeerCount(count) {
+  try {
+    localStorage.setItem('ferieoel_beers', JSON.stringify({
+      count: count,
+      timestamp: new Date().getTime()
+    }));
+  } catch(e) {}
+}
+
+function incrementBeerCount() {
+  var count = loadBeerCount() + 1;
+  saveBeerCount(count);
+  updateBeerDisplay(count);
+}
+
+function resetBeerCount() {
+  localStorage.removeItem('ferieoel_beers');
+  updateBeerDisplay(0);
+}
+
+function updateBeerDisplay(count) {
+  document.getElementById('beerCountDisplay').textContent = count;
+  var msgs = [
+    'Du har ikke delt nogen links endnu',         // 0
+    'Jeg fik bare én enkelt',                      // 1
+    'Jeg fik bare én enkelt',                      // 2
+    'Jeg fik et par stykker, ikke noget særligt',  // 3
+    'Jeg fik et par stykker, ikke noget særligt',  // 4
+    'Jamen jeg drak også vand',                    // 5
+    'Jamen jeg drak også vand',                    // 6
+  ];
+  var msg = count >= 7 ? 'Vi hyggede os bare lidt 😇' : msgs[count];
+  document.getElementById('koneMsg').textContent = msg;
+}
+
+// Tjek nulstilling hvert minut
+setInterval(function() {
+  updateBeerDisplay(loadBeerCount());
+}, 60000);
+
 // ── Share ──────────────────────────────────────────────────────────────────
 function getShareUrl() {
   var base = 'https://pepsi1966.github.io/Ferie-oel/';
@@ -519,6 +596,7 @@ function updateShareLink() {
 
 function copyShareLink() {
   if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  incrementBeerCount();
   navigator.clipboard.writeText(getShareUrl()).then(function() {
     var btn = document.getElementById('copyBtn');
     btn.textContent = '✅ Kopieret!';
@@ -528,12 +606,14 @@ function copyShareLink() {
 
 function shareWhatsApp() {
   if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  incrementBeerCount();
   var txt = '🍺 Ferie Øl-alarm kl. ' + alarmTime + '! Klik og deltag: ' + getShareUrl();
   window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
 }
 
 function shareMessenger() {
   if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  incrementBeerCount();
   var url = getShareUrl();
   // Messenger deep link — virker på mobil med Messenger installeret
   window.open('fb-messenger://share?link=' + encodeURIComponent(url), '_blank');
@@ -545,6 +625,7 @@ function shareMessenger() {
 
 function doShare() {
   if (!vacationActive) { alert('Aktiver ferie-tilstand først!'); return; }
+  incrementBeerCount();
   var txt = '🍺 Ferie Øl-alarm kl. ' + alarmTime + '! ';
   if (navigator.share) {
     navigator.share({ title: 'Ferie Øl 🍺', text: txt, url: getShareUrl() });
