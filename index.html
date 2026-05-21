@@ -128,7 +128,9 @@ window.requestPushPermission = async function() {
       console.log('Push afvist');
       return;
     }
-    const token = await getToken(messaging, { vapidKey: VAPID_KEY });
+    // Registrer service worker manuelt med korrekt sti for GitHub Pages
+    const swReg = await navigator.serviceWorker.register('/Ferie-oel/firebase-messaging-sw.js');
+    const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg });
     if (token) {
       // Gem token i Firestore under gruppe
       var groupId = getGroupId();
