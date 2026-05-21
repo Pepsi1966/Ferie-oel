@@ -100,6 +100,66 @@
   .alarm-friends { font-weight: 700; color: var(--brown); font-size: 1rem; margin-bottom: 16px; }
   @keyframes flashfade { 0%{opacity:.85} 100%{opacity:0} }
 </style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAKMCoTFou7OyxJlhROOQVoAZJATwTcLlo",
+  authDomain: "ferie-oel.firebaseapp.com",
+  projectId: "ferie-oel",
+  storageBucket: "ferie-oel.firebasestorage.app",
+  messagingSenderId: "907888813816",
+  appId: "1:907888813816:web:65638a0d34ff2c89f87d0d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Gruppe-ID baseret på URL-parameter eller "default"
+function getGroupId() {
+  var params = new URLSearchParams(location.search);
+  return params.get('group') || 'default';
+}
+
+function getTodayKey() {
+  var now = new Date();
+  // Nulstil kl 03 — hvis det er før 03, brug forrige dag
+  if (now.getHours() < 3) {
+    now.setDate(now.getDate() - 1);
+  }
+  return now.getFullYear() + '-' + pad2(now.getMonth()+1) + '-' + pad2(now.getDate());
+}
+
+function pad2(n) { return n < 10 ? '0'+n : ''+n; }
+
+// Lyt til ændringer i realtid
+function startListening() {
+  var groupId = getGroupId();
+  var docRef = doc(db, 'beercount', groupId + '_' + getTodayKey());
+  onSnapshot(docRef, function(snap) {
+    var count = 0;
+    if (snap.exists()) {
+      count = snap.data().count || 0;
+    }
+    if (typeof updateBeerDisplay === 'function') updateBeerDisplay(count);
+  });
+}
+
+// Inkrementer i Firebase
+window.firebaseIncrementBeer = async function() {
+  var groupId = getGroupId();
+  var docRef = doc(db, 'beercount', groupId + '_' + getTodayKey());
+  var snap = await getDoc(docRef);
+  var current = snap.exists() ? (snap.data().count || 0) : 0;
+  await setDoc(docRef, { count: current + 1, updated: new Date().toISOString() });
+};
+
+// Start lytning når siden loader
+window.addEventListener('load', function() {
+  setTimeout(startListening, 500);
+});
+</script>
 </head>
 <body>
 <div class="bg-sun"></div>
@@ -553,9 +613,15 @@ function saveBeerCount(count) {
 }
 
 function incrementBeerCount() {
-  var count = loadBeerCount() + 1;
-  saveBeerCount(count);
-  updateBeerDisplay(count);
+  // Opdater Firebase (delt tæller)
+  if (typeof firebaseIncrementBeer === 'function') {
+    firebaseIncrementBeer();
+  } else {
+    // Fallback til localStorage
+    var count = loadBeerCount() + 1;
+    saveBeerCount(count);
+    updateBeerDisplay(count);
+  }
 }
 
 function resetBeerCount() {
