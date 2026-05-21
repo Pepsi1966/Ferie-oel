@@ -103,7 +103,6 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKMCoTFou7OyxJlhROOQVoAZJATwTcLlo",
@@ -116,49 +115,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-// ── FCM Push Notifikationer ───────────────────────────────────────────────
-const messaging = getMessaging(app);
-const VAPID_KEY = 'BFpOCx1Mem7XV5wvTSGvjpUuWPQsws-eEyAHQTlSWZbQo_eI9N85dA7g2_BYyvIqDtA1hiPpccmMEAJcDXpwIoY'; // erstattes nedenfor
-
-window.requestPushPermission = async function() {
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      console.log('Push afvist');
-      return;
-    }
-    // Registrer service worker manuelt med korrekt sti for GitHub Pages
-    const swReg = await navigator.serviceWorker.register('/Ferie-oel/firebase-messaging-sw.js');
-    const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg });
-    if (token) {
-      // Gem token i Firestore under gruppe
-      var groupId = getGroupId();
-      var tokenRef = doc(db, 'tokens', token);
-      await setDoc(tokenRef, { 
-        groupId: groupId,
-        alarmTime: window._alarmTime || '11:00',
-        created: new Date().toISOString()
-      }, { merge: true });
-      console.log('Push token gemt:', token.substring(0,20) + '...');
-      document.getElementById('pushStatusMsg').textContent = '✅ Push-notifikationer aktiveret!';
-      document.getElementById('pushStatusMsg').style.color = 'var(--green)';
-    }
-  } catch(e) {
-    console.log('FCM fejl:', e);
-    document.getElementById('pushStatusMsg').textContent = '⚠️ Kunne ikke aktivere — prøv i Chrome';
-    document.getElementById('pushStatusMsg').style.color = '#e74c3c';
-  }
-};
-
-// Modtag notifikation når app er åben
-onMessage(messaging, function(payload) {
-  console.log('Push modtaget:', payload);
-  if (typeof fireAlarm === 'function') fireAlarm();
-});
-
-// Gem alarmtid globalt så FCM kan bruge den
-window._alarmTime = '11:00';
 
 // ── Gruppe-ID baseret på URL-parameter eller "default"
 function getGroupId() {
@@ -258,8 +214,6 @@ window.addEventListener('load', function() {
         </div>
         <div class="countdown-msg" id="countdownMsg">Hold ud – snart er det tid! 🕐</div>
         <button class="btn btn-brown btn-full" onclick="testAlarm()" style="margin-top:12px;">🔔 Test alarm</button>
-        <button class="btn btn-amber btn-full" onclick="requestPushPermission()" style="margin-top:8px;">📲 Aktiver push-alarm (virker med lukket browser)</button>
-        <div id="pushStatusMsg" style="font-size:.82rem;font-weight:700;text-align:center;margin-top:6px;min-height:18px;"></div>
       </div>
     </div>
   </div>
@@ -317,6 +271,28 @@ window.addEventListener('load', function() {
   </div>
 
 
+</div>
+
+<!-- Velkomst popup til modtagere -->
+<div class="alarm-overlay" id="welcomeOverlay">
+  <div class="alarm-modal">
+    <span style="font-size:4rem;display:block;margin-bottom:8px;">🍺</span>
+    <h2 style="font-size:1.6rem;">Du er inviteret!</h2>
+    <div style="font-family:'Nunito',sans-serif;font-size:.95rem;color:var(--brown);font-weight:600;line-height:1.6;margin:12px 0 20px;">
+      <p>For at høre øl-alarmen kl. <strong id="welcomeTime">11:00</strong> er det vigtigt at du:</p>
+      <br>
+      <div style="text-align:left;display:inline-block;">
+        📱 Lader browseren stå <strong>åben i baggrunden</strong><br>
+        🔊 Har lyden slået <strong>til på telefonen</strong><br>
+        😴 Ikke lukker Chrome helt ned
+      </div>
+      <br><br>
+      <p style="font-size:.85rem;color:var(--brown-mid);">Skærmen må gerne være låst — bare browseren kører!</p>
+    </div>
+    <button class="btn btn-amber btn-full" onclick="dismissWelcome()" style="font-size:1.1rem;padding:14px;">
+      👍 Forstået — jeg er med på spøgen!
+    </button>
+  </div>
 </div>
 
 <!-- Alarm Modal -->
@@ -407,6 +383,15 @@ window.addEventListener('load', function() {
   checkNotif();
   updateShareLink();
   preloadAudio();
+
+  // Vis velkomst-popup til modtagere der åbner et delt link
+  var params = new URLSearchParams(location.search);
+  if (params.get('active') === '1') {
+    document.getElementById('welcomeTime').textContent = alarmTime;
+    setTimeout(function() {
+      document.getElementById('welcomeOverlay').classList.add('show');
+    }, 800);
+  }
   updateBeerDisplay(loadBeerCount());
 });
 
@@ -537,6 +522,10 @@ function dismissAlarm() {
   document.getElementById('alarmOverlay').classList.remove('show');
   document.getElementById('heroGlass').textContent = '🍻';
   if (skaalAudio) { skaalAudio.pause(); skaalAudio.currentTime = 0; }
+}
+
+function dismissWelcome() {
+  document.getElementById('welcomeOverlay').classList.remove('show');
 }
 
 function testAlarm() {
